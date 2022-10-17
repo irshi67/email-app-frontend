@@ -1,0 +1,76 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container">
+  <div class="email-app shadow-lg mb-4">
+    <nav>
+      <a href="/new-email" class="btn btn-danger btn-block">New Email</a>
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox"><i class="fa fa-inbox"></i> Inbox <span
+              class="badge badge-danger"></span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox"><i class="fa fa-star"></i> Stared</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox"><i class="fa fa-rocket"></i> Sent</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox"><i class="fa fa-trash-o"></i> Trash</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/inbox"><i class="fa fa-bookmark"></i> Important<span
+              class="badge badge-info"></span></a>
+        </li>
+      </ul>
+    </nav>
+    <main class="message">
+      <div class="toolbar">
+        <div class="btn-group">
+          <button type="button" (click)="setStatusStarred()" class="btn btn-light">
+            <span class="fa fa-star"></span>
+          </button>
+          <button type="button" (click)="setStatusUnStarred()" class="btn btn-light">
+            <span class="fa fa-star-o"></span>
+          </button>
+          <button type="button" (click)="setStatusImportant()" class="btn btn-light">
+            <span class="fa fa-bookmark-o"></span>
+          </button>
+        </div>
+        <div class="btn-group">
+        </div>
+        <button type="button" (click)="setStatusTrash()" class="btn btn-light">
+          <span class="fa fa-trash-o"></span>
+        </button>
+      </div>
+      <div class="details">
+        <div class="title">
+          {{emails.from}}
+        </div>
+        <div class="header">
+          <div class="from">
+            <span>{{emails.subject}}</span>
+          </div>
+        </div>
+        <div class="content">
+          <p>
+            {{emails.message}}
+          </p>
+        </div>
+        <div *ngIf="emails.reply != null" class="content2">
+          <p>
+            {{emails.reply}}
+          </p>
+        </div>
+        <form #mailForm="ngForm" (ngSubmit)="sendMail(mailForm)" method="post" action="">
+          <div class="form-group">
+            <textarea ngModel name="reply" class="form-control" id="reply" rows="12"
+              placeholder="Click here to reply"></textarea>
+          </div>
+          <div class="form-group">
+            <button tabindex="3" type="submit" class="btn btn-success btn-block">Send message</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</div>

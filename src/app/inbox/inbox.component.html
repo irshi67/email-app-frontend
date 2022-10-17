@@ -1,0 +1,80 @@
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+<div class="container bootdey">
+  <div class="email-app shadow-lg p-3 mb-4">
+    <nav>
+      <a href="/new-email" class="btn btn-danger btn-block">New Email</a>
+      <ul class="nav">
+        <li class="nav-item">
+          <a class="nav-link" (click)="getInbox()">
+            <i class="fa fa-inbox"></i> Inbox</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="getStatusStared()"><i class="fa fa-star"></i> Stared</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="getSent()"><i class="fa fa-rocket"></i> Sent</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="getStatusTrash()"><i class="fa fa-trash-o"></i> Trash</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" (click)="getStatusImportant()"><i class="fa fa-bookmark"></i> Important</a>
+        </li>
+      </ul>
+    </nav>
+    <main class="inbox">
+      <div class="toolbar">
+        <div class="btn-group">
+          <a href="/new-email" type="button" class="btn btn-light">
+            <span class="fa fa-envelope"></span>
+          </a>
+          <button type="button" (click)="setStatusStared()" class="btn btn-light">
+            <span class="fa fa-star"></span>
+          </button>
+          <button type="button" (click)="setStatusUnStared()" class="btn btn-light">
+            <span class="fa fa-star-o"></span>
+          </button>
+          <button type="button" (click)="setStatusImportant()" class="btn btn-light">
+            <span class="fa fa-bookmark-o"></span>
+          </button>
+        </div>
+        <button type="button" (click)="setStatusTrash()" class="btn btn-light">
+          <span class="fa fa-trash-o"></span>
+        </button>
+        <div class="btn-group float-right">
+          <button type="button" (click)="logOut()" class="btn btn-danger btn-block" id="logout">Log Out</button>
+        </div>
+        <div id="name">
+          {{firstName}}
+        </div>
+      </div>
+      <ul *ngFor="let mail of mails" class="messages">
+        <li [ngClass]="(mail.read) ? 'message' : 'message unread'">
+          <a>
+            <form [formGroup]="myForm">
+              <div class="actions">
+                <input type="checkbox" class="checkbox" (change)="onChange(mail.id, $any($event.target).checked)">
+                <button class="no-button" mat-raised-button><span class="action">
+                    <i [ngClass]="(mail.status === MailStatus.STARRED) ? 'fa fa-star': 'fa fa-star-o'"></i>
+                  </span>
+                </button>
+              </div>
+            </form>
+            <div (dblclick)="viewEmail(mail)" *ngIf="inbox" class="header">
+              <span class="from"> {{mail.from}} </span>
+            </div>
+            <div (dblclick)="viewEmail(mail)" *ngIf="!inbox" class="header">
+              <span class="from"> {{mail.to}} </span>
+            </div>
+            <div (dblclick)="viewEmail(mail)" class="title">
+              {{mail.subject}}
+            </div>
+            <div (dblclick)="viewEmail(mail)" class="description">
+              {{ (mail.message.length) > 30? (mail.message | slice:0:60 ) + '..':(mail.message)}}
+            </div>
+          </a>
+        </li>
+      </ul>
+    </main>
+  </div>
+</div>
